@@ -145,6 +145,10 @@
     </div>
   </div>
 
+  <!-- 收起后的侧边把手 -->
+  <button class="panel-tab panel-tab--left" id="tabLeft" aria-label="展开模块索引">模块索引</button>
+  <button class="panel-tab panel-tab--right" id="tabRight" aria-label="展开部件参数">部件参数</button>
+
   <!-- 悬停标签 -->
   <div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true">
     <div class="tooltip__top">
@@ -173,8 +177,29 @@
 
 </div>
 
+<div id="assetError" style="display:none;position:fixed;inset:0;z-index:999;background:#05080c;color:#dcecf7;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;padding:8vh 8vw;line-height:1.9">
+  <div style="font-family:monospace;font-size:11px;letter-spacing:.24em;color:#45e2ff">ASSET LOAD ERROR</div>
+  <h2 style="font-size:22px;margin:12px 0 8px">页面资源未加载</h2>
+  <p style="color:#a8c1d2;max-width:620px">缺少 <code>styles.css</code>、<code>app.js</code> 或 <code>vendor/</code> 目录。请确认部署时上传了整个项目目录，而不是只上传 <code>index.html</code>。</p>
+  <p style="color:#a8c1d2">也可以直接部署单文件版本 <code>standalone.html</code>。</p>
+</div>
 <script src="vendor/three.min.js"></script>
 <script src="vendor/OrbitControls.js"></script>
 <script src="app.js"></script>
+<!-- asset-check-start -->
+<script>
+window.addEventListener('load', function () {
+  var hasCss = false;
+  for (var i = 0; i < document.styleSheets.length; i++) {
+    var h = document.styleSheets[i].href || '';
+    if (h.indexOf('styles.css') >= 0) hasCss = true;
+  }
+  if (!window.THREE || !window.__T4_READY || !hasCss) {
+    var el = document.getElementById('assetError');
+    if (el) el.style.display = 'block';
+  }
+});
+</script>
+<!-- asset-check-end -->
 </body>
 </html>
